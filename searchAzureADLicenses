@@ -1,3 +1,6 @@
-$users = 
+$users = Get-AzureADUser -All $true | where {$_.AccountEnabled -eq $true -and $_.AssignedLicenses.SkuId -eq '6fd2c87f-b296-42f0-b197-1e91e994b900'}
 
-((Get-AzureADUser $user).AssignedPlans | where {$_.Service -eq "TeamspaceAPI"}).CapabilityStatus
+foreach($user in $users){
+  if(((Get-AzureADUser $user).AssignedPlans | where {$_.Service -eq "TeamspaceAPI"}).CapabilityStatus) -eq "Deleted"){
+    $user
+    }
