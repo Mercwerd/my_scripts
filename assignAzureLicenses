@@ -1,5 +1,10 @@
+# Users that are enabled and have Enterprise E3 assigned
 $users = Get-AzureADUser -All $true | where {$_.AccountEnabled -eq $true -and $_.AssignedLicenses.SkuId -eq '6fd2c87f-b296-42f0-b197-1e91e994b900'}
 
+# Users that are enabled, have Enterprise E3 assigned, and have Enterprise Mobility + Security E3 unassigned
+$users = Get-AzureADUser -All $true | where {$_.AccountEnabled -eq $true -and $_.AssignedLicenses.SkuId -eq '6fd2c87f-b296-42f0-b197-1e91e994b900' -and !($_.AssignedLicenses.SkuId -eq 'efccb6f7-5641-4e0e-bd10-b4976e1bf68e')}
+
+# Assign licensing
 foreach($user in $users){
   Set-AzureADUser -ObjectId $user.ObjectId -UsageLocation US
   $SkuFeaturesToEnable = @("EXCHANGE_S_FOUNDATION","INTUNE_A","AAD_PREMIUM")
