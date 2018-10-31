@@ -4,3 +4,4 @@ foreach($user in $users){
   if(((Get-AzureADUser -SearchString $user.UserPrincipalName).AssignedPlans | where {$_.Service -eq "TeamspaceAPI"}).CapabilityStatus -eq 'Deleted'){
     $user.UserPrincipalName
     }
+  }
