@@ -1,0 +1,3 @@
+$users = 
+
+((Get-AzureADUser $user).AssignedPlans | where {$_.Service -eq "TeamspaceAPI"}).CapabilityStatus
