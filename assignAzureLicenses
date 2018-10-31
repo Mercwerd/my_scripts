@@ -1,0 +1,14 @@
+$users = (Get-AzureADUser -All $true | where {$_.AccountEnabled -eq $true -and $_.AssignedLicenses.SkuId -eq '6fd2c87f-b296-42f0-b197-1e91e994b900'}
+
+foreach($user in $users}{
+  Set-AzureADUser -ObjectId $user.ObjectId -UsageLocation US
+  $SkuFeaturesToEnable = @("EXCHANGE_S_FOUNDATION","INTUNE_A","AAD_PREMIUM")
+  $StandardLicense = Get-AzureADSubscribedSku | Where {$_.SkuId -eq "efccb6f7-5641-4e0e-bd10-b4976e1bf68e"}
+  $SkuFeaturesToDisable = $StandardLicense.ServicePlans | ForEach-Object { $_ | Where {$_.ServicePlanName -notin $SkuFeaturesToEnable }}
+  $License = New-Object -TypeName Microsoft.Open.AzureAD.Model.AssignedLicense
+  $License.SkuId = $StandardLicense.SkuId
+  $License.DisabledPlans = $SkuFeaturesToDisable.ServicePlanId
+  $LicensesToAssign = New-Object -TypeName Microsoft.Open.AzureAD.Model.AssignedLicenses
+  $LicensesToAssign.AddLicenses = $License
+  Set-AzureADUserLicense -ObjectId $user.ObjectId -AssignedLicenses $LicensesToAssign
+  }
