@@ -1,0 +1,1 @@
+Get-VM | Get-Snapshot | Select VM,Name,@{ n="SizeGB"; e={[math]::round( $_.SizeGB)}} | sort SizeGB -Descending
