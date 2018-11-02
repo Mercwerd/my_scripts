@@ -1,1 +1,6 @@
-Get-VM | Get-Snapshot | Select VM,Name,@{ n="SizeGB"; e={[math]::round( $_.SizeGB)}} | sort SizeGB -Descending
+Import-Module VMware.PowerCLI
+
+$cred = if ($cred){$cred}else{Get-Credential}
+Connect-VIServer vcenter -Credential $cred
+
+Get-VM | Get-Snapshot | Select VM,Name,@{n="SizeGB"; e={[math]::round( $_.SizeGB)}} | sort SizeGB -Descending
