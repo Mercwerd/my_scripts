@@ -1,0 +1,9 @@
+Import-Module 'D:\Program Files\Microsoft Configuration Manager\AdminConsole\bin\ConfigurationManager.psd1'
+
+Set-Location SGC:
+$bootImage = "WinPEx64-Jan2017"
+
+$bootImageIDs = Get-CMBootImage -Name $bootImage | select ReferencedDrivers
+foreach($bootImageID in $bootImageIDs){
+    Get-CMDriver -Id $bootImageID.ReferencedDrivers | select LocalizedDisplayName, ContentSourcePath
+    }
