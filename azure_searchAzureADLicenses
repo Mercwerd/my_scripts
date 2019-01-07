@@ -54,9 +54,9 @@
 // Get all users that have Enterprise E3 assigned
 $users = Get-AzureADUser -All $true | where {$_.AccountEnabled -eq $true -and $_.AssignedLicenses.SkuId -eq '6fd2c87f-b296-42f0-b197-1e91e994b900'}
 
-// Find all users without certain license (TeamspaceAPI is Teams)
+// Find all users without certain license (57ff2da0-773e-42df-b2af-ffb7a2317929 is TEAMS1)
 foreach($user in $users){
-  if(((Get-AzureADUser -SearchString $user.UserPrincipalName).AssignedPlans | where {$_.Service -eq "TeamspaceAPI"}).CapabilityStatus -eq 'Deleted'){
+  if(((Get-AzureADUser -SearchString $user.UserPrincipalName).AssignedPlans | where {$_.ServicePlanId -eq "57ff2da0-773e-42df-b2af-ffb7a2317929"}).CapabilityStatus -eq $null){
     $user.UserPrincipalName
     }
   }
