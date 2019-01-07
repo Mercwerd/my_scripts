@@ -51,8 +51,10 @@
 #  AAD_PREMIUM           41781fb2-bc02-4b7c-bd55-b576c07bb09d
 #  MFA_PREMIUM           8a256a2b-b617-496d-b51b-e76466e88db0
 
+// Get all users that have Enterprise E3 assigned
 $users = Get-AzureADUser -All $true | where {$_.AccountEnabled -eq $true -and $_.AssignedLicenses.SkuId -eq '6fd2c87f-b296-42f0-b197-1e91e994b900'}
 
+// Find all users without certain license (TeamspaceAPI is Teams)
 foreach($user in $users){
   if(((Get-AzureADUser -SearchString $user.UserPrincipalName).AssignedPlans | where {$_.Service -eq "TeamspaceAPI"}).CapabilityStatus -eq 'Deleted'){
     $user.UserPrincipalName
