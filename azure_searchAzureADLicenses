@@ -63,7 +63,7 @@ foreach($user in $users){
 
 # Find all users with certain license (57ff2da0-773e-42df-b2af-ffb7a2317929 is TEAMS1)
 foreach($user in $users){
-  if(((Get-AzureADUser -SearchString $user.UserPrincipalName).AssignedPlans | where {$_.ServicePlanId -ne "57ff2da0-773e-42df-b2af-ffb7a2317929"}).CapabilityStatus -eq $null){
+  if(((Get-AzureADUser -SearchString $user.UserPrincipalName).AssignedPlans | where {$_.ServicePlanId -ne "57ff2da0-773e-42df-b2af-ffb7a2317929"}).CapabilityStatus -ne $null){
     $user.UserPrincipalName
     }
   }
