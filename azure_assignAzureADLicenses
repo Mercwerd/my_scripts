@@ -60,7 +60,7 @@ $users = Get-AzureADUser -All $true | where {$_.AccountEnabled -eq $true -and $_
 # Assign EMS E3 licensing
 foreach($user in $users){
   Set-AzureADUser -ObjectId $user.ObjectId -UsageLocation US
-  $SkuFeaturesToEnable = @("EXCHANGE_S_FOUNDATION","INTUNE_A","AAD_PREMIUM")
+  $SkuFeaturesToEnable = @("MFA_PREMIUM","INTUNE_A","AAD_PREMIUM")
   $StandardLicense = Get-AzureADSubscribedSku | Where {$_.SkuId -eq "efccb6f7-5641-4e0e-bd10-b4976e1bf68e"}
   $SkuFeaturesToDisable = $StandardLicense.ServicePlans | ForEach-Object { $_ | Where {$_.ServicePlanName -notin $SkuFeaturesToEnable }}
   $License = New-Object -TypeName Microsoft.Open.AzureAD.Model.AssignedLicense
