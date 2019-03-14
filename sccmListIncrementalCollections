@@ -1,0 +1,3 @@
+
+
+Get-CMDeviceCollection | Select -Property Name, CollectionID,RefreshType | Where-Object {$_.Refreshtype -eq 6} | FT -AutoSize
