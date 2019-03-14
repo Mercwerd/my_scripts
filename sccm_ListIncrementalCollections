@@ -1,3 +1,4 @@
+Import-Module 'D:\Program Files\Microsoft Configuration Manager\AdminConsole\bin\ConfigurationManager.psd1'
 
-
+Set-Location SGC:
 Get-CMDeviceCollection | Select -Property Name, CollectionID,RefreshType | Where-Object {$_.Refreshtype -eq 6} | FT -AutoSize
